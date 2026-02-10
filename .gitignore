@@ -3,3 +3,5 @@ venv/
 __pycache__/
 .env
 results/
+.idea/
+anaconda_projects/
