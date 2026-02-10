@@ -1,0 +1,10 @@
+# Datenverarbeitung und Analyse
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Maschinelles Lernen
+scikit-learn>=1.2.0
+
+# Visualisierung
+seaborn>=0.12.0
+matplotlib>=3.7.0
