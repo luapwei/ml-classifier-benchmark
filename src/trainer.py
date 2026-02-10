@@ -3,7 +3,6 @@ import seaborn as sns
 from src.factory import ClassifierFactory
 from src.metrics import Metric
 
-
 class Trainer:
     def __init__(self):
         self.train_data = None

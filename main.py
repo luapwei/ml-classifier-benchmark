@@ -10,7 +10,14 @@ def main():
 
     # 3. Liste der 8 Strategien aus der PDF
     strategies = [
-        "tree"
+        "tree",
+        "rf",
+        "lda",
+        "svm_rbf",
+        "svm_linear",
+        "svm_poly3",
+        "linear_svc",
+        "xgboost"
     ]
 
     print("--- Starte Mini-Keras Benchmark ---")
