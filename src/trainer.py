@@ -21,7 +21,7 @@ class Trainer:
         self.test_data = iris.iloc[indices[:15]]
         self.train_data = iris.iloc[indices[15:]]
 
-    def run_benchmark(self, strategy_names):
+    def run_benchmark(self, strategy_names, plot=True):
         for name in strategy_names:
             # 1. Factory baut das Modell
             strategy = ClassifierFactory.make_classifier(name, random_state=123)
@@ -39,15 +39,16 @@ class Trainer:
             error_rate = Metric.calculate_error_rate(y_true, y_pred)
             self.results[name] = error_rate
 
-            # 2. Erstellung der Heatmap über die Metric-Klasse
-            Metric.plot_confusion_matrix(y_true, y_pred, name)
+            # 2. Erstellung der Heatmap (optional)
+            if plot:
+                Metric.plot_confusion_matrix(y_true, y_pred, name)
             print(f"{name} abgeschlossen. Error Rate: {error_rate:.4f}")
 
         # Zusammenfassung: Ranking aller Modelle nach Error Rate
         self._print_summary()
 
     def _print_summary(self):
-        """Gibt eine sortierte Zusammenfassung aller Error Rates aus."""
+        """Zusammenfassung"""
         print("\n" + "=" * 50)
         print("          ERGEBNIS-ZUSAMMENFASSUNG")
         print("=" * 50)

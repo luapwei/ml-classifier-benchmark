@@ -1,7 +1,7 @@
 from src.trainer import Trainer
 
 
-def main(): 
+def main():
     # 1. Trainer erstellen
     trainer = Trainer()
 
@@ -20,13 +20,16 @@ def main():
         "xgboost"
     ]
 
+    # Visualisierung (Heatmaps) ein/aus
+    visualisierung = True
+
     print("--- Starte Mini-Keras Benchmark ---")
 
     # 4. Automatischer Durchlauf
     # Wir übergeben random_state, damit die Modelle (z.B. RF)
     # immer gleich trainieren.
     try:
-        trainer.run_benchmark(strategies)
+        trainer.run_benchmark(strategies, visualisierung)
     except Exception as e:
         print(f"Fehler im Ablauf: {e}")
 
