@@ -16,7 +16,7 @@ class ClassifierFactory:
     Dies verhindert manuelle Fallunterscheidungen im Trainer.
     """
 
-    # Das Mapping-Dictionary gemäß deiner Mapping-Tabelle
+    # Mapping-Dictionary > Verwendet in main
     _strategies = {
         "tree": DecisionTreeStrategy,
         "rf": RandomForestStrategy,
@@ -39,8 +39,7 @@ class ClassifierFactory:
         strategy_class = ClassifierFactory._strategies.get(name.lower())
 
         if not strategy_class:
-            raise ValueError(f"Strategie '{name}' ist nicht bekannt. "
-                             f"Verfügbar sind: {list(ClassifierFactory._strategies.keys())}")
+            raise ValueError(f"Strategie '{name}' ist nicht bekannt")
 
         # Instanziierung der Klasse mit den übergebenen Parametern
         return strategy_class(**kwargs)

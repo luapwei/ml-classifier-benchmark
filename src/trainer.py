@@ -12,7 +12,7 @@ class Trainer:
         self.results = {}
 
     def prepare_data(self):
-        # Deine Logik: Iris laden und über Indizes permutieren
+        # Iris laden und über Indizes permutieren
         np.random.seed(123)
         iris = sns.load_dataset('iris')
         indices = np.random.permutation(len(iris))
@@ -26,7 +26,7 @@ class Trainer:
             # 1. Factory baut das Modell
             strategy = ClassifierFactory.make_classifier(name, random_state=123)
 
-            # 2. Training mit deinen Feature/Target Definitionen
+            # 2. Training mit Feature/Target Definitionen
             strategy.fit(self.train_data[self.features], self.train_data[self.target])
 
             # 3. Vorhersage
@@ -34,6 +34,7 @@ class Trainer:
 
             # 4. Auswertung
             y_true = self.test_data[self.target]
+
             # 1. Berechnung der Error Rate über die Metric-Klasse
             error_rate = Metric.calculate_error_rate(y_true, y_pred)
             self.results[name] = error_rate

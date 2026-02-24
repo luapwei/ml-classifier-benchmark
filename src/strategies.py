@@ -30,17 +30,10 @@ class RandomForestStrategy(ClassifierStrategy):
 
 class LDAStrategy(ClassifierStrategy):
     def __init__(self, solver='svd', **kwargs):
-        # Wir entfernen random_state, falls es übergeben wurde,
-        # da LDA diesen Parameter nicht kennt.
+        # entfernt random_state da LDA diesen Parameter nicht kennt.
         kwargs.pop('random_state', None)
 
         self.model = LinearDiscriminantAnalysis(solver=solver, **kwargs)
-
-    def fit(self, X, y):
-        self.model.fit(X, y)
-
-    def predict(self, X):
-        return self.model.predict(X)
 
     def fit(self, X, y):
         self.model.fit(X, y)

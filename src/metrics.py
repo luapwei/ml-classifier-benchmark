@@ -5,9 +5,6 @@ import seaborn as sns
 import os
 
 class Metric:
-    """
-    Übernimmt die statistische und grafische Auswertung der Ergebnisse.
-    """
     @staticmethod
     def calculate_error_rate(y_true, y_pred):
         # Berechnet die Fehlerrate (1 - Accuracy)
@@ -16,7 +13,7 @@ class Metric:
 
     @staticmethod
     def plot_confusion_matrix(y_true, y_pred, model_name):
-        # Erstellt einen Ordner "ergebnisse" direkt in deinem Projektordner
+        # Erstellt Ordner results
         pfad = "results"
         if not os.path.exists(pfad):
             os.makedirs(pfad)
@@ -25,9 +22,9 @@ class Metric:
         sns.heatmap(confusion_matrix(y_true, y_pred), annot=True, fmt='d', cmap='Blues')
         plt.title(f'Confusion Matrix: {model_name}')
 
-        # Speichert das Bild im Ordner ab
+        # Speichert die Heatmap
         dateiname = f"{pfad}/heatmap_{model_name}.png"
         plt.savefig(dateiname)
         print(f"Grafik gespeichert: {dateiname}")
 
-        plt.close()  # Wichtig: Schließt das Fenster automatisch, damit der Loop weiterläuft
+        plt.close()  # Schließt das Fenster automatisch damit der Loop weiterläuft

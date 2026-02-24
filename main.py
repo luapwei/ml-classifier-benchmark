@@ -8,7 +8,7 @@ def main():
     # 2. Daten laden und splitten (Deine 15-Test-Logik)
     trainer.prepare_data()
 
-    # 3. Liste der 8 Strategien aus der PDF
+    # 3. Liste der 8 Strategien
     strategies = [
         "tree",
         "rf",
