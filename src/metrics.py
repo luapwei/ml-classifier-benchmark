@@ -1,4 +1,3 @@
-import numpy as np
 from sklearn.metrics import accuracy_score, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
