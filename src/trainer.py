@@ -42,3 +42,21 @@ class Trainer:
             # 2. Erstellung der Heatmap über die Metric-Klasse
             Metric.plot_confusion_matrix(y_true, y_pred, name)
             print(f"{name} abgeschlossen. Error Rate: {error_rate:.4f}")
+
+        # Zusammenfassung: Ranking aller Modelle nach Error Rate
+        self._print_summary()
+
+    def _print_summary(self):
+        """Gibt eine sortierte Zusammenfassung aller Error Rates aus."""
+        print("\n" + "=" * 50)
+        print("          ERGEBNIS-ZUSAMMENFASSUNG")
+        print("=" * 50)
+        print(f"{'Rang':<6}{'Modell':<16}{'Error Rate':<12}{'Accuracy'}")
+        print("-" * 50)
+
+        sorted_results = sorted(self.results.items(), key=lambda x: x[1])
+        for rang, (name, error_rate) in enumerate(sorted_results, start=1):
+            accuracy = 1 - error_rate
+            print(f"{rang:<6}{name:<16}{error_rate:<12.4f}{accuracy:.2%}")
+
+        print("=" * 50)
