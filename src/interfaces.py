@@ -7,11 +7,11 @@ class ClassifierStrategy(ABC):
     """
 
     @abstractmethod
-    def fit(self, x, y):
+    def fit(self, X, y):
         """Trainiert das Modell mit Features X und Labels y."""
         pass
 
     @abstractmethod
-    def predict(self, x):
+    def predict(self, X):
         """Liefert Vorhersagen für die gegebenen Features X."""
         pass
