@@ -1,4 +1,8 @@
+import logging
 from src.trainer import Trainer
+
+# Logging konfigurieren
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 
 def main():
