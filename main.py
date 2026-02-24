@@ -1,7 +1,7 @@
 from src.trainer import Trainer
 
 
-def main():
+def main(): 
     # 1. Trainer erstellen
     trainer = Trainer()
 

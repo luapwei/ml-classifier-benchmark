@@ -1,7 +1,7 @@
-venv/
-*.pyc
-__pycache__/
-.env
-results/
 .idea/
+__pycache__/
 anaconda_projects/
+results/
+venv/
+.env
+*.pyc
