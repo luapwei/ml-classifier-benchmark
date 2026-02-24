@@ -13,10 +13,7 @@ def log_method(func):
 
 
 class ClassifierStrategy(ABC):
-    """
-    Abstrakte Basisklasse für alle Klassifikations-Strategien.
-    Stellt sicher, dass jede Strategie fit() und predict() implementiert.
-    """
+    """Abstrakte Basisklasse für Strategien"""
 
     @abstractmethod
     def fit(self, X, y):

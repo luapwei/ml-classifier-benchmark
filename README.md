@@ -2,6 +2,8 @@
 
 Dieses Projekt vergleicht 8 verschiedene Machine-Learning-Klassifikationsmodelle anhand des Iris-Datensatzes. Es wurde im Rahmen einer Studienarbeit an der Universität Augsburg entwickelt.
 
+## Generiert durch Claude AI
+
 ## Modelle
 
 | Nr. | Modell | Key |
