@@ -3,5 +3,6 @@ __pycache__/
 anaconda_projects/
 results/
 venv/
+.venv/
 .env
 *.pyc

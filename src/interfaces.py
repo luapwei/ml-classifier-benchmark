@@ -13,14 +13,12 @@ def log_method(func):
 
 
 class ClassifierStrategy(ABC):
-    """Abstrakte Basisklasse für Strategien"""
-
     @abstractmethod
     def fit(self, X, y):
-        """Trainiert das Modell mit Features X und Labels y."""
+        #Trainiert das Modell mit Features X und Labels y
         pass
 
     @abstractmethod
     def predict(self, X):
-        """Liefert Vorhersagen für die gegebenen Features X."""
+        # Liefert Vorhersagen für die gegebenen Features X
         pass

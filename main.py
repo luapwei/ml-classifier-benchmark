@@ -1,19 +1,26 @@
 import logging
 from src.trainer import Trainer
+from src.factory import ClassifierFactory
 
 # Logging konfigurieren
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 
 def main():
-    # 1. Trainer erstellen
+    """
+    Client (GoF Strategy Pattern):
+    Wählt die konkreten Strategien über die Factory
+    und injiziert sie in den Kontext (Trainer).
+    """
+
+    # 1. Kontext erstellen
     trainer = Trainer()
 
-    # 2. Daten laden und splitten (Deine 15-Test-Logik)
+    # 2. Daten laden und splitten
     trainer.prepare_data()
 
     # 3. Liste der 8 Strategien
-    strategies = [
+    strategy_names = [
         "tree",
         "rf",
         "lda",
@@ -29,13 +36,19 @@ def main():
 
     print("--- Starte Mini-Keras Benchmark ---")
 
-    # 4. Automatischer Durchlauf
-    # Wir übergeben random_state, damit die Modelle (z.B. RF)
-    # immer gleich trainieren.
+    # 4. Client wählt jede Strategie über die Factory
+    #    und injiziert sie in den Kontext (Trainer)
     try:
-        trainer.run_benchmark(strategies, visualisierung)
+        for name in strategy_names:
+            # Client erstellt die Strategie via Factory
+            strategy = ClassifierFactory.make_classifier(name, random_state=123)
+            # Client injiziert sie in den Kontext
+            trainer.run_single(strategy, name, visualisierung)
     except Exception as e:
         print(f"Fehler im Ablauf: {e}")
+
+    # 5. Zusammenfassung ausgeben
+    trainer.print_summary()
 
 
 if __name__ == "__main__":

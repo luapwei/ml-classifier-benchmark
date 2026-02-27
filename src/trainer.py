@@ -1,9 +1,15 @@
 import numpy as np
 import seaborn as sns
-from src.factory import ClassifierFactory
 from src.metrics import Metric
 
+
 class Trainer:
+    """
+    Kontext (GoF Strategy Pattern).
+    Der Trainer kennt nur das ClassifierStrategy-Interface,
+    NICHT die Factory oder konkrete Strategien.
+    """
+
     def __init__(self):
         self.train_data = None
         self.test_data = None
@@ -21,34 +27,34 @@ class Trainer:
         self.test_data = iris.iloc[indices[:15]]
         self.train_data = iris.iloc[indices[15:]]
 
-    def run_benchmark(self, strategy_names, plot=True):
-        for name in strategy_names:
-            # 1. Factory baut das Modell
-            strategy = ClassifierFactory.make_classifier(name, random_state=123)
+    def run_single(self, strategy, name, plot=True):
+        """
+        Führt Training, Vorhersage und Auswertung
+        mit einer vom Client injizierten Strategie durch.
 
-            # 2. Training mit Feature/Target Definitionen
-            strategy.fit(self.train_data[self.features], self.train_data[self.target])
+        :param strategy: Eine Instanz von ClassifierStrategy (injiziert vom Client).
+        :param name: Bezeichnung der Strategie für die Ergebnisausgabe.
+        :param plot: Ob eine Confusion-Matrix-Heatmap erzeugt werden soll.
+        """
+        # 1. Training mit Feature/Target Definitionen
+        strategy.fit(self.train_data[self.features], self.train_data[self.target])
 
-            # 3. Vorhersage
-            y_pred = strategy.predict(self.test_data[self.features])
+        # 2. Vorhersage
+        y_pred = strategy.predict(self.test_data[self.features])
 
-            # 4. Auswertung
-            y_true = self.test_data[self.target]
+        # 3. Auswertung
+        y_true = self.test_data[self.target]
 
-            # 1. Berechnung der Error Rate über die Metric-Klasse
-            error_rate = Metric.calculate_error_rate(y_true, y_pred)
-            self.results[name] = error_rate
+        error_rate = Metric.calculate_error_rate(y_true, y_pred)
+        self.results[name] = error_rate
 
-            # 2. Erstellung der Heatmap (optional)
-            if plot:
-                Metric.plot_confusion_matrix(y_true, y_pred, name)
-            print(f"{name} abgeschlossen. Error Rate: {error_rate:.4f}")
+        # 4. Erstellung der Heatmap (optional)
+        if plot:
+            Metric.plot_confusion_matrix(y_true, y_pred, name)
+        print(f"{name} abgeschlossen. Error Rate: {error_rate:.4f}")
 
-        # Zusammenfassung: Ranking aller Modelle nach Error Rate
-        self._print_summary()
-
-    def _print_summary(self):
-        """Zusammenfassung"""
+    def print_summary(self):
+        """Zusammenfassung: Ranking aller Modelle nach Error Rate."""
         print("\n" + "=" * 50)
         print("          ERGEBNIS-ZUSAMMENFASSUNG")
         print("=" * 50)
