@@ -1,11 +1,14 @@
 import logging
+import sys
 from src.trainer import Trainer
 from src.factory import ClassifierFactory
 from src.adapter import SklearnAdapter
 
-# Logging konfigurieren
-logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
-
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(levelname)s] %(message)s",
+    stream=sys.stdout
+)
 
 def main():
     """
@@ -14,7 +17,7 @@ def main():
     und injiziert sie in den Kontext (Trainer).
 
     Demonstriert zusätzlich:
-    - Adapter-Pattern   (SklearnAdapter)
+    - Adapter-Pattern (SklearnAdapter)
     """
 
     # 1. Kontext erstellen
