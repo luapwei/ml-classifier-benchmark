@@ -11,11 +11,6 @@ from src.strategies import (
 
 
 class ClassifierFactory:
-    """
-    Die Factory instanziiert die konkreten Strategien basierend auf einem String-Key.
-    Dies verhindert manuelle Fallunterscheidungen im Trainer.
-    """
-
     # Mapping-Dictionary > Verwendet in main
     _strategies = {
         "tree": DecisionTreeStrategy,
@@ -30,16 +25,11 @@ class ClassifierFactory:
 
     @staticmethod
     def make_classifier(name, **kwargs):
-        """
-        Erzeugt das Strategie-Objekt.
-        :param name: Der Key aus dem _strategies Dictionary.
-        :param kwargs: Optionale Parameter für das Modell (z.B. max_depth).
-        :return: Eine Instanz einer ClassifierStrategy.
-        """
+        # Strategie muss kleingeschrieben sein
         strategy_class = ClassifierFactory._strategies.get(name.lower())
 
         if not strategy_class:
-            raise ValueError(f"Strategie '{name}' ist nicht bekannt")
+            raise ValueError(f"Strategie '{name}' nicht bekannt")
 
-        # Instanziierung der Klasse mit den übergebenen Parametern
+        # Instanziierung der Klasse
         return strategy_class(**kwargs)

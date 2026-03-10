@@ -2,14 +2,7 @@ from src.interfaces import ClassifierStrategy
 
 
 class SklearnAdapter(ClassifierStrategy):
-    """
-    Adapter-Pattern (GoF):
-    Passt ein beliebiges sklearn-kompatibles Modell
-    (mit fit/predict Methoden) an das ClassifierStrategy-Interface an.
-    So können auch Modelle genutzt werden, die keine eigene
-    Strategy-Klasse besitzen.
-    """
-
+    # Adapter-Pattern passt ein beliebiges sklearn-Modell wie das ClassifierStrategy interface an
     def __init__(self, sklearn_model):
         self.model = sklearn_model
 

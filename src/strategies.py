@@ -8,7 +8,6 @@ from src.interfaces import ClassifierStrategy, log_method
 
 class DecisionTreeStrategy(ClassifierStrategy):
     def __init__(self, criterion='gini', max_depth=None, **kwargs):
-        # Parameter aus Mapping-Tabelle
         self.model = DecisionTreeClassifier(criterion=criterion, max_depth=max_depth, **kwargs)
 
     @log_method
@@ -21,7 +20,6 @@ class DecisionTreeStrategy(ClassifierStrategy):
 
 class RandomForestStrategy(ClassifierStrategy):
     def __init__(self, n_estimators=100, max_depth=None, **kwargs):
-        # Parameter aus Mapping-Tabelle
         self.model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, **kwargs)
 
     @log_method
@@ -34,7 +32,7 @@ class RandomForestStrategy(ClassifierStrategy):
 
 class LDAStrategy(ClassifierStrategy):
     def __init__(self, solver='svd', **kwargs):
-        # entfernt random_state da LDA diesen Parameter nicht kennt.
+        # LDA kennt random_state nicht
         kwargs.pop('random_state', None)
 
         self.model = LinearDiscriminantAnalysis(solver=solver, **kwargs)
@@ -49,7 +47,6 @@ class LDAStrategy(ClassifierStrategy):
 
 class SVCRbfStrategy(ClassifierStrategy):
     def __init__(self, C=1.0, gamma='scale', **kwargs):
-        # Parameter aus Mapping-Tabelle
         self.model = SVC(kernel='rbf', C=C, gamma=gamma, **kwargs)
 
     @log_method
@@ -62,7 +59,6 @@ class SVCRbfStrategy(ClassifierStrategy):
 
 class SVCLinearStrategy(ClassifierStrategy):
     def __init__(self, C=1.0, **kwargs):
-        # Parameter aus Mapping-Tabelle
         self.model = SVC(kernel='linear', C=C, **kwargs)
 
     @log_method
@@ -75,7 +71,6 @@ class SVCLinearStrategy(ClassifierStrategy):
 
 class SVCPoly3Strategy(ClassifierStrategy):
     def __init__(self, C=1.0, degree=3, **kwargs):
-        # Parameter aus Mapping-Tabelle
         self.model = SVC(kernel='poly', degree=degree, C=C, **kwargs)
 
     @log_method
@@ -88,7 +83,6 @@ class SVCPoly3Strategy(ClassifierStrategy):
 
 class LinearSVCStrategy(ClassifierStrategy):
     def __init__(self, C=1.0, loss='squared_hinge', max_iter=1000, **kwargs):
-        # Parameter aus Mapping-Tabelle
         self.model = LinearSVC(C=C, loss=loss, max_iter=max_iter, **kwargs)
 
     @log_method
@@ -101,7 +95,6 @@ class LinearSVCStrategy(ClassifierStrategy):
 
 class XGBoostStrategy(ClassifierStrategy):
     def __init__(self, n_estimators=100, learning_rate=0.1, **kwargs):
-        # Parameter aus Mapping-Tabelle
         self.model = xgb.XGBClassifier(n_estimators=n_estimators, learning_rate=learning_rate, **kwargs)
         self.label_encoder = LabelEncoder()
 

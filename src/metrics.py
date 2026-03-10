@@ -6,7 +6,7 @@ import os
 class Metric:
     @staticmethod
     def calculate_error_rate(y_true, y_pred):
-        # Berechnet die Fehlerrate (1 - Accuracy)
+        # Berechnet Fehlerrate
         accuracy = accuracy_score(y_true, y_pred)
         return 1 - accuracy
 
@@ -26,4 +26,4 @@ class Metric:
         plt.savefig(dateiname)
         print(f"Grafik gespeichert: {dateiname}")
 
-        plt.close()  # Schließt das Fenster automatisch damit der Loop weiterläuft
+        plt.close() # Ohne das läuft die Loop nicht weiter

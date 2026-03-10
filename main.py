@@ -11,22 +11,14 @@ logging.basicConfig(
 )
 
 def main():
-    """
-    Client (GoF Strategy Pattern):
-    Wählt die konkreten Strategien über die Factory
-    und injiziert sie in den Kontext (Trainer).
 
-    Demonstriert zusätzlich:
-    - Adapter-Pattern (SklearnAdapter)
-    """
-
-    # 1. Kontext erstellen
+    # Kontext erstellen
     trainer = Trainer()
 
-    # 2. Daten laden und splitten
+    # Daten laden und splitten
     trainer.prepare_data()
 
-    # 3. Liste der 8 Strategien (Strategy + Factory Pattern)
+    # Liste der Strategien
     strategy_names = [
         "tree",
         "rf",
@@ -38,13 +30,10 @@ def main():
         "xgboost"
     ]
 
-    # Visualisierung (Heatmaps) ein/aus
+    # Heatmap aktiviert
     visualisierung = True
 
-    print("--- Starte Mini-Keras Benchmark ---")
-
-    # 4. Client wählt jede Strategie über die Factory
-    #    und injiziert sie in den Kontext (Trainer)
+    # Benchmark
     try:
         for name in strategy_names:
             # Client erstellt die Strategie via Factory
@@ -52,20 +41,16 @@ def main():
             # Client injiziert sie in den Kontext
             trainer.run_single(strategy, name, visualisierung)
     except Exception as e:
-        print(f"Fehler im Ablauf: {e}")
+        print(f"Fehler: {e}")
 
-    # ── Adapter-Pattern ─────────────────────────────────────────
-    # Adaptiert ein beliebiges sklearn-Modell auf das
-    # ClassifierStrategy-Interface, ohne eine eigene Strategy-Klasse.
-    print("\n--- Adapter-Pattern: KNeighborsClassifier ---")
+    # Adapter-Pattern adaptiert ein beliebiges sklearn-Modell ohne Klasse in strategies.py
+    print("\nAdapter-Pattern: KNeighborsClassifier")
     from sklearn.neighbors import KNeighborsClassifier
     knn_adapter = SklearnAdapter(KNeighborsClassifier(n_neighbors=3))
     trainer.run_single(knn_adapter, "adapter_knn", visualisierung)
 
-
-    # 5. Zusammenfassung ausgeben
+    # Zusammenfassung
     trainer.print_summary()
-
 
 if __name__ == "__main__":
     main()
