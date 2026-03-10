@@ -1,7 +1,7 @@
 # ML-Klassifikations-Benchmark
 ### README.md wurde durch Claude (claude.ai) erstellt
 
-Dieses Projekt vergleicht 8 verschiedene Machine-Learning-Klassifikationsmodelle anhand des Iris-Datensatzes. Es wurde im Rahmen einer Studienarbeit an der Universität Augsburg entwickelt.
+Dieses Projekt vergleicht verschiedene Machine-Learning-Klassifikationsmodelle anhand des Iris-Datensatzes. Es wurde im Rahmen einer Studienarbeit an der Universität Augsburg entwickelt.
 
 ## Modelle
 
@@ -16,23 +16,60 @@ Dieses Projekt vergleicht 8 verschiedene Machine-Learning-Klassifikationsmodelle
 | 7 | LinearSVC | `linear_svc` |
 | 8 | XGBoost | `xgboost` |
 
+Zusätzlich wird über das **Adapter-Pattern** ein `KNeighborsClassifier` als 9. Modell eingebunden, ohne dass dafür eine eigene Strategy-Klasse benötigt wird.
+
+## GoF Design Patterns
+
+Das Projekt setzt vier Gang-of-Four (GoF) Design Patterns ein:
+
+### 1. Strategy Pattern
+Die abstrakte Klasse `ClassifierStrategy` definiert eine einheitliche Schnittstelle (`fit`, `predict`). Jedes der 8 ML-Modelle ist als eigene konkrete Strategie implementiert. Der `Trainer` arbeitet nur gegen die abstrakte Schnittstelle und ist dadurch vom konkreten Modell entkoppelt.
+
+- **Interface:** `ClassifierStrategy` in `src/interfaces.py`
+- **Konkrete Strategien:** `DecisionTreeStrategy`, `RandomForestStrategy`, `LDAStrategy`, `SVCRbfStrategy`, `SVCLinearStrategy`, `SVCPoly3Strategy`, `LinearSVCStrategy`, `XGBoostStrategy` in `src/strategies.py`
+- **Kontext:** `Trainer.run_single()` in `src/trainer.py`
+
+### 2. Factory Pattern
+Die `ClassifierFactory` erzeugt über einen String-Key die passende Strategy-Instanz. Der Client (`main.py`) muss die konkreten Klassen nicht kennen.
+
+- **Factory:** `ClassifierFactory.make_classifier()` in `src/factory.py`
+
+### 3. Decorator Pattern
+Die Funktion `log_method` ist ein Python-Decorator, der das Logging transparent um die `fit`- und `predict`-Methoden der Strategien wickelt — ohne deren Code zu verändern. Dies entspricht dem GoF-Decorator-Pattern: zusätzliche Verantwortlichkeit (Logging) wird dynamisch hinzugefügt.
+
+- **Decorator:** `@log_method` in `src/interfaces.py`
+- **Anwendung:** Auf `fit()` und `predict()` aller konkreten Strategien in `src/strategies.py`
+
+### 4. Adapter Pattern
+Der `SklearnAdapter` passt ein beliebiges sklearn-Modell an die `ClassifierStrategy`-Schnittstelle an. So können Modelle ohne eigene Strategy-Klasse direkt im Benchmark verwendet werden (z. B. `KNeighborsClassifier`).
+
+- **Adapter:** `SklearnAdapter` in `src/adapter.py`
+- **Anwendung:** In `main.py` wird `KNeighborsClassifier` über den Adapter eingebunden
+
 ## Architektur
 
-Das Projekt nutzt die Design Patterns **Strategy** und **Factory**:
-
 ```
-main.py                  → Einstiegspunkt
-  └─ Trainer             → Datenvorbereitung & Benchmark-Orchestrierung
-      ├─ ClassifierFactory   → Erzeugt Modelle über String-Key
-      │   └─ ClassifierStrategy (ABC) → 8 konkrete Strategien
-      └─ Metric              → Error Rate & Confusion Matrix
+main.py                    → Einstiegspunkt
+  └─ Trainer               → Datenvorbereitung & Benchmark-Orchestrierung
+      ├─ ClassifierFactory  → Erzeugt Modelle über String-Key (Factory)
+      │   └─ ClassifierStrategy (ABC)
+      │       └─ 8 konkrete Strategien (Strategy)
+      ├─ SklearnAdapter     → Passt beliebige sklearn-Modelle an (Adapter)
+      ├─ @log_method        → Logging-Decorator für fit/predict (Decorator)
+      └─ Metric             → Error Rate & Confusion Matrix
 ```
 
-- **`src/interfaces.py`** – Abstrakte Basisklasse `ClassifierStrategy`
-- **`src/strategies.py`** – Konkrete Modell-Strategien
-- **`src/factory.py`** – Factory zur Modell-Erzeugung
-- **`src/metrics.py`** – Fehlerrate und Confusion-Matrix-Plots
-- **`src/trainer.py`** – Datenaufbereitung und Benchmark-Ablauf
+### Projektstruktur
+
+| Datei | Beschreibung |
+|-------|-------------|
+| `main.py` | Einstiegspunkt: Benchmark-Ablauf und Adapter-Demo |
+| `src/interfaces.py` | Abstrakte Basisklasse `ClassifierStrategy` + `@log_method` Decorator |
+| `src/strategies.py` | 8 konkrete Modell-Strategien |
+| `src/factory.py` | `ClassifierFactory` zur Modell-Erzeugung per String-Key |
+| `src/adapter.py` | `SklearnAdapter` für beliebige sklearn-Modelle |
+| `src/metrics.py` | Fehlerrate-Berechnung und Confusion-Matrix-Heatmaps |
+| `src/trainer.py` | Datenaufbereitung (Iris-Datensatz) und Benchmark-Ablauf |
 
 ## Installation
 
@@ -59,10 +96,7 @@ python main.py
 Das Programm:
 1. Lädt den Iris-Datensatz (150 Samples)
 2. Splittet in 15 Test- und 135 Trainingsdaten
-3. Trainiert und evaluiert alle 8 Modelle
-4. Speichert Confusion-Matrix-Heatmaps im Ordner `results/`
-5. Gibt eine sortierte Ergebnis-Zusammenfassung mit Error Rates aus
-
-## Ergebnisse
-
-Die generierten Confusion-Matrix-Heatmaps werden als PNG-Dateien im Ordner `results/` gespeichert. Nach dem Durchlauf wird ein Ranking aller Modelle nach Error Rate ausgegeben.
+3. Trainiert und evaluiert alle 8 Strategy-Modelle (via Factory)
+4. Bindet ein zusätzliches Modell über den Adapter ein
+5. Speichert Confusion-Matrix-Heatmaps im Ordner `results/`
+6. Gibt eine sortierte Ergebnis-Zusammenfassung mit Error Rates aus
