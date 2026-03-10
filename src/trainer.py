@@ -48,7 +48,7 @@ class Trainer:
         print("=" * 50)
         print(f"{'Rang':<6}{'Modell':<16}{'Error Rate':<12}{'Accuracy'}")
 
-        # Ergebnisse sortieren - lambda gibt den Value x[1] als Sortierschlüssel zurück
+        # Ergebnisse sortieren - lambda x[1] sortiert nach Value
         sorted_results = sorted(self.results.items(), key=lambda x: x[1])
         for rang, (name, error_rate) in enumerate(sorted_results, start=1):
             accuracy = 1 - error_rate
