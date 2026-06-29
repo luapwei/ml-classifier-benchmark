@@ -1,5 +1,4 @@
 # ML-Klassifikations-Benchmark
-### README.md wurde durch Claude (claude.ai) erstellt
 
 Dieses Projekt vergleicht verschiedene Machine-Learning-Klassifikationsmodelle anhand des Iris-Datensatzes. Es wurde im Rahmen einer Studienarbeit an der Universität Augsburg entwickelt.
 
@@ -76,7 +75,7 @@ main.py                    → Einstiegspunkt
 ```bash
 # Repository klonen
 git clone <repository-url>
-cd AUGSBURG_10237747_Python_Simon
+cd ml-classifier-benchmark
 
 # Virtual Environment erstellen und aktivieren
 python -m venv .venv
