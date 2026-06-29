@@ -10,7 +10,7 @@ logging.basicConfig(
     stream=sys.stdout
 )
 
-def main():
+def main() -> None:
 
     # Kontext erstellen
     trainer = Trainer()
@@ -19,7 +19,7 @@ def main():
     trainer.prepare_data()
 
     # Liste der Strategien
-    strategy_names = [
+    strategy_names: list[str] = [
         "tree",
         "rf",
         "lda",
@@ -31,7 +31,7 @@ def main():
     ]
 
     # Heatmap aktiviert
-    visualisierung = True
+    visualisierung: bool = True
 
     # Benchmark
     try:
@@ -54,4 +54,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

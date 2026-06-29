@@ -1,3 +1,8 @@
+from __future__ import annotations
+
+from typing import Any
+
+from src.interfaces import ClassifierStrategy
 from src.strategies import (
     DecisionTreeStrategy,
     RandomForestStrategy,
@@ -12,7 +17,7 @@ from src.strategies import (
 
 class ClassifierFactory:
     # Mapping-Dictionary > Verwendet in main
-    _strategies = {
+    _strategies: dict[str, type[ClassifierStrategy]] = {
         "tree": DecisionTreeStrategy,
         "rf": RandomForestStrategy,
         "lda": LDAStrategy,
@@ -24,7 +29,7 @@ class ClassifierFactory:
     }
 
     @staticmethod
-    def make_classifier(name, **kwargs):
+    def make_classifier(name: str, **kwargs: Any) -> ClassifierStrategy:
         # Strategie muss kleingeschrieben sein
         strategy_class = ClassifierFactory._strategies.get(name.lower())
 
